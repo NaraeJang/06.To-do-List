@@ -13,5 +13,21 @@
   },
   "author": "Narae Jang",
   "license": "ISC",
-  "description": ""
+  "description": "To do list",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NaraeJang/06.To-do-List.git"
+  },
+  "keywords": [
+    "To",
+    "do",
+    "list",
+    "ejs",
+    "create",
+    "template"
+  ],
+  "bugs": {
+    "url": "https://github.com/NaraeJang/06.To-do-List/issues"
+  },
+  "homepage": "https://github.com/NaraeJang/06.To-do-List#readme"
 }
