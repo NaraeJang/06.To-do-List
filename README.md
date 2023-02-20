@@ -1,4 +1,5 @@
 # To-do-List
+A to-do list up-to-date makes it easy to keep track of every task. This list also can reinforce the information in case something is forgotten. Increase productivity: Making a to-do list can prioritize the most important tasks and need to be completed first.
 
 # What I learned?
 - Creating templates by EJS.
