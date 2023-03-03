@@ -35,8 +35,9 @@ const item3 = new Item({
 
 const defaultItems = [item1, item2, item3];
 
-Item.insertMany(defaultItems).then(result => {console.log(result);}).catch(err => {console.log(err);});
+// Item.insertMany(defaultItems).then(result => {console.log(result);}).catch(err => {console.log(err);});
 
+Item.find().then(foundItems => {console.log(foundItems);}).catch(err => {console.log(err);});
 
 app.set('view engine', 'ejs');
 
