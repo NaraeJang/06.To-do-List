@@ -20,11 +20,23 @@ const ItemsSchema = new mongoose.Schema({
 
 const Item = new mongoose.model('Item', ItemsSchema);
 
-const item = new Item ({
-name: {
-
-}
+//Put Items in the DB
+const item1 = new Item({
+    name: "Welcome to your todolist!"
 });
+
+const item2 = new Item({
+    name: "Hit the + button to add a new item."
+});
+
+const item3 = new Item({
+    name: "<-- Hit this to delete an item.>"
+});
+
+const defaultItems = [item1, item2, item3];
+
+Item.insertMany(defaultItems).then(result => {console.log(result);}).catch(err => {console.log(err);});
+
 
 app.set('view engine', 'ejs');
 
@@ -34,6 +46,14 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static("public"));
 
+app.get("/", function (req, res) {
+
+    res.render("list", {
+        listTitle: "Today",
+        newListItems: item
+    });
+
+});
 
 app.post("/", function (req, res) {
     const item = req.body.newItem;
