@@ -30,14 +30,14 @@ const item2 = new Item({
 });
 
 const item3 = new Item({
-    name: "<-- Hit this to delete an item.>"
+    name: "<-- Hit this to delete an item."
 });
 
 const defaultItems = [item1, item2, item3];
 
-// Item.insertMany(defaultItems).then(result => {console.log(result);}).catch(err => {console.log(err);});
 
-Item.find().then(foundItems => {console.log(foundItems);}).catch(err => {console.log(err);});
+
+
 
 app.set('view engine', 'ejs');
 
@@ -49,9 +49,25 @@ app.use(express.static("public"));
 
 app.get("/", function (req, res) {
 
-    res.render("list", {
-        listTitle: "Today",
-        newListItems: item
+    Item.find().then(foundItems => {
+
+        if (foundItems.length === 0) {
+            Item.insertMany(defaultItems).then(result => {
+                console.log(result);
+            }).catch(err => {
+                console.log(err);
+            });
+            res.redirect("/");
+        } 
+
+        else {
+        res.render("list", {
+            listTitle: "Today",
+            newListItems: foundItems})
+        };
+        
+    }).catch(err => {
+        console.log(err);
     });
 
 });
