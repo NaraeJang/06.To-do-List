@@ -18,7 +18,14 @@ const ItemsSchema = new mongoose.Schema({
     name: String
 });
 
+const listsSchema = new mongoose.Schema({
+    name: String,
+    items: [ItemsSchema]
+});
+
 const Item = new mongoose.model('Item', ItemsSchema);
+
+const List = new mongoose.model('List', listsSchema);
 
 //Put Items in the DB
 const item1 = new Item({
@@ -88,19 +95,54 @@ app.post("/", function (req, res) {
 });
 
 app.post("/delete", function (req, res) {
-const checkItemId = req.body.checkBox;
+    const checkItemId = req.body.checkBox;
 
-Item.findByIdAndRemove(checkItemId).then(result => {console.log("Successfully deleted an item.");}).catch(err => {console.log(err);});
-
-res.redirect("/");
-});
-
-app.get("/work", function (req, res) {
-    res.render("list", {
-        listTitle: "Work List",
-        newListItems: workItems
+    Item.findByIdAndRemove(checkItemId).then(result => {
+        console.log("Successfully deleted an item.");
+    }).catch(err => {
+        console.log(err);
     });
+
+    res.redirect("/");
 });
+
+// app.get("/work", function (req, res) {
+//     res.render("list", {
+//         listTitle: "Work List",
+//         newListItems: workItems
+//     });
+// });
+
+app.get("/:taskType", function (req, res) {
+    const taskType = req.params.taskType;
+
+    List.findOne({
+        name: taskType
+    }).then(function (foundList) {
+            if (!foundList) {
+                const list = new List({
+                    name: taskType,
+                    items: defaultItems
+               });
+        
+               list.save();
+               res.redirect("/" + taskType);
+               
+            } else {
+                res.render("list",{
+                    listTitle: foundList.name,
+                    newListItems: foundList.items
+                });
+            }
+
+    }).catch(err => {console.log(err);});
+
+       
+
+
+
+});
+
 
 app.get("/about", function (req, res) {
     res.render("about");
