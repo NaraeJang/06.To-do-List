@@ -81,16 +81,33 @@ app.get("/", function (req, res) {
 app.post("/", function (req, res) {
 
     const itemName = req.body.newItem;
+    const listName = req.body.list;
 
     const item = new Item({
         name: itemName
     });
 
-    item.save();
+    if (listName === "Today") {
+        item.save();
+        res.redirect("/");
+    } else {
+        List.findOne({
+            name: listName
+        }).then(foundList => {
+            foundList.items.push(item);
+            foundList.save();
+            res.redirect("/" + listName);
+        }).catch(err => {
+            console.log(" error save new item in custom list");
+        });
+
+    };
+
+
 
     console.log(this);
 
-    res.redirect("/");
+
 
 });
 
@@ -119,25 +136,27 @@ app.get("/:taskType", function (req, res) {
     List.findOne({
         name: taskType
     }).then(function (foundList) {
-            if (!foundList) {
-                const list = new List({
-                    name: taskType,
-                    items: defaultItems
-               });
-        
-               list.save();
-               res.redirect("/" + taskType);
-               
-            } else {
-                res.render("list",{
-                    listTitle: foundList.name,
-                    newListItems: foundList.items
-                });
-            }
+        if (!foundList) {
+            const list = new List({
+                name: taskType,
+                items: defaultItems
+            });
 
-    }).catch(err => {console.log(err);});
+            list.save();
+            res.redirect("/" + taskType);
 
-       
+        } else {
+            res.render("list", {
+                listTitle: foundList.name,
+                newListItems: foundList.items
+            });
+        }
+
+    }).catch(err => {
+        console.log(err);
+    });
+
+
 
 
 

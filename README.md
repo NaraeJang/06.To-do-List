@@ -8,3 +8,6 @@ A to-do list up-to-date makes it easy to keep track of every task. This list als
 - Run Code inside the EJS template.
 - Rendering Database Items in the ToDoList App.
 - Adding New Items to our ToDoList Database.
+- Deleting Items from our ToDoList Database.
+- Creating Custom Lists using Express Route Parameters.
+- Adding New Items to the Custom ToDo Lists.
