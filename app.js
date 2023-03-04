@@ -58,14 +58,13 @@ app.get("/", function (req, res) {
                 console.log(err);
             });
             res.redirect("/");
-        } 
-
-        else {
-        res.render("list", {
-            listTitle: "Today",
-            newListItems: foundItems})
+        } else {
+            res.render("list", {
+                listTitle: "Today",
+                newListItems: foundItems
+            })
         };
-        
+
     }).catch(err => {
         console.log(err);
     });
@@ -73,17 +72,27 @@ app.get("/", function (req, res) {
 });
 
 app.post("/", function (req, res) {
-    const item = req.body.newItem;
 
-    if (req.body.list === "Work") {
-        workItems.push(item);
-        res.redirect("/work");
-    } else {
-        items.push(item);
-        res.redirect("/");
-    }
+    const itemName = req.body.newItem;
 
+    const item = new Item({
+        name: itemName
+    });
 
+    item.save();
+
+    console.log(this);
+
+    res.redirect("/");
+
+});
+
+app.post("/delete", function (req, res) {
+const checkItemId = req.body.checkBox;
+
+Item.findByIdAndRemove(checkItemId).then(result => {console.log("Successfully deleted an item.");}).catch(err => {console.log(err);});
+
+res.redirect("/");
 });
 
 app.get("/work", function (req, res) {

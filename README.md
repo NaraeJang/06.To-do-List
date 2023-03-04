@@ -7,3 +7,4 @@ A to-do list up-to-date makes it easy to keep track of every task. This list als
 - Utilize different EJS Tags depending on the usage.
 - Run Code inside the EJS template.
 - Rendering Database Items in the ToDoList App.
+- Adding New Items to our ToDoList Database.
