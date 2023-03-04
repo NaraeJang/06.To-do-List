@@ -3,6 +3,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const _ = require("lodash");
 
 const app = express();
 
@@ -60,7 +61,7 @@ app.get("/", function (req, res) {
 
         if (foundItems.length === 0) {
             Item.insertMany(defaultItems).then(result => {
-                console.log(result);
+                console.log("Inserted the wanted item.");
             }).catch(err => {
                 console.log(err);
             });
@@ -113,14 +114,34 @@ app.post("/", function (req, res) {
 
 app.post("/delete", function (req, res) {
     const checkItemId = req.body.checkBox;
+    const listName = req.body.listName;
 
-    Item.findByIdAndRemove(checkItemId).then(result => {
-        console.log("Successfully deleted an item.");
-    }).catch(err => {
-        console.log(err);
-    });
+    if (listName === "Today") {
 
-    res.redirect("/");
+        Item.findByIdAndRemove(checkItemId).then(result => {
+            console.log("Successfully deleted checked item.");
+        }).catch(err => {
+            console.log(err);
+        });
+
+        res.redirect("/");
+    } else {
+        List.findOneAndUpdate({
+            name: listName
+        }, {
+            $pull: {
+                items: {
+                    _id: checkItemId
+                }
+            }
+        }).then(result => {
+            console.log("Successfully deleted checked item.");
+            res.redirect("/" + listName);
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
 });
 
 // app.get("/work", function (req, res) {
@@ -131,7 +152,7 @@ app.post("/delete", function (req, res) {
 // });
 
 app.get("/:taskType", function (req, res) {
-    const taskType = req.params.taskType;
+    const taskType = _.capitalize(req.params.taskType);
 
     List.findOne({
         name: taskType
