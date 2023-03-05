@@ -11,4 +11,4 @@ A to-do list up-to-date makes it easy to keep track of every task. This list als
 - Deleting Items from our ToDoList Database.
 - Creating Custom Lists using Express Route Parameters.
 - Adding New Items to the Custom ToDo Lists.
-- Revisiting Lodash and Deleting Items from Custom ToDo Lists.
+- Installing Lodash and Deleting Items from ToDo Lists.

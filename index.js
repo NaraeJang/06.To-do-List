@@ -1,18 +1,30 @@
 //jshint esversion:6
 
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const _ = require("lodash");
 
-const app = express();
 
+const app = express();
+const PORT = process.env.PORT || 3000;
 // const items = [];
 // const workItems = [];
 
-mongoose.connect('mongodb://127.0.0.1:27017/todolistDB', {
-    useNewUrlParser: true
-});
+mongoose.set('strictQuery', false);
+const connectDB = async () => {
+    try {
+        const conn = await mongoose.connect(process.env.MONGO_URI);
+    } catch (err) {
+        console.log(err);
+        process.exit(1);
+    }
+};
+
+// mongoose.connect('mongodb+srv://admin-narae:Test123@cluster0.66ch5yj.mongodb.net/todolistDB', {
+//     useNewUrlParser: true
+// });
 
 //Schema Setup
 const ItemsSchema = new mongoose.Schema({
@@ -188,6 +200,10 @@ app.get("/about", function (req, res) {
     res.render("about");
 });
 
-app.listen(3000, function () {
-    console.log("Server started on port 3000");
+
+
+connectDB().then(()=> {
+    app.listen(PORT, () => {
+        console.log(`Server started on ${PORT}`);
+    });
 });
