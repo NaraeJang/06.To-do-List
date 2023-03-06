@@ -14,4 +14,4 @@ A to-do list up-to-date makes it easy to keep track of every task. This list als
 - Installing Lodash and Deleting Items from ToDo Lists.
 
 #
-[Click here to see the live](https://dizzy-deer-tiara.cyclic.app/)
+[👉🏼 Click here to see the live](https://dizzy-deer-tiara.cyclic.app/)
